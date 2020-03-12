@@ -5,8 +5,10 @@ const bodyParser = require('body-parser');
 const dbConfig = require('./database/db');
 
 // Express APIs
-const api = require('./routes/auth.router');
-
+const apiAuth= require('./routes/auth.router');
+const apiAgent= require ('./routes/agent.router') ; 
+const apiIntent = require('./routes/intent.router') ; 
+const apiEntitie = require('./routes/entitie.router') ; 
 // MongoDB conection
 //mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.db, {
@@ -36,7 +38,11 @@ app.use(cors());
 // Serve static resources
 app.use('/public', express.static('public'));
 
-app.use('/api', api)
+app.use('/api/auth', apiAuth);
+app.use('/api/agents', apiAgent);
+app.use('/api/intents' , apiIntent) ;
+app.use('/api/entities' , apiEntitie) ;
+
 
 // Define PORT
 const port = process.env.PORT || 4000;
