@@ -16,7 +16,7 @@ let intentSchema = new Schema({
      //   unique: true
 
     },
-   content: [{ desc:String 
+   content: [{ rank:Number , desc:String  , synonymes: String, answers :String
              }]
 },
    {

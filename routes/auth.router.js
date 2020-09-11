@@ -34,6 +34,9 @@ router.post("/register-user",
             .isLength({ min: 5, max: 8 })
     ],
    authctrl.register );
+   router.post("/register-gmail-user", authctrl.registerGoogle);
+   router.post("/signingmail", authctrl.signingmail);
+   
 
 
 // Sign-in
@@ -70,7 +73,7 @@ router.route('/').get(authctrl.getUsers);
 //get agent
 //router.route('/agent/:id').get(agentctrl.getAgent);
 // Get Single User
-router.route('/user-profile/:id').get(authorize,authctrl.getUser );
+router.route('/user-profile/:id').get(authctrl.getUser );
 
 // Update User
 router.route('/update-user/:id').put(authctrl.updateUser);

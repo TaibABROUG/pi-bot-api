@@ -1,13 +1,37 @@
 const intentSchema = require("../models/Intent"); 
 const agentSchema = require("../models/Agent"); 
+const fastcsv = require('fast-csv');
+const fs = require('fs');
 const express = require("express");
+const { writeToPath } = require('@fast-csv/format');
 const { check, validationResult } = require('express-validator');
 module.exports.addAgent = (req , res, next)=> {
-
+    data = [
+        {
+          name: 'John',
+          surname: 'Snow',
+          age: 26,
+          gender: 'M'
+        }, {
+          name: 'Clair',
+          surname: 'White',
+          age: 33,
+          gender: 'FM',
+        }, {
+          name: 'Fancy',
+          surname: 'Brown',
+          age: 78,
+          gender: 'F'
+        }
+      ];
+    const ws = fs.createWriteStream("out.csv");
+    fastcsv
+      .write(data, { headers: true })
+      .pipe(ws);
     console.log(req.body.id_user);
     const errors = validationResult(req);
     console.log("requet is" +req.body.name);
-
+ 
     if (!errors.isEmpty()) {
         return res.status(422).jsonp(errors.array());
     }
@@ -18,7 +42,9 @@ module.exports.addAgent = (req , res, next)=> {
                 res.status(201).json({
                     message: "Agent successfully created!",
                     result: response
+                    
                 });
+              
             }).catch(error => {
                 res.status(500).json({
                     error: error
@@ -26,6 +52,7 @@ module.exports.addAgent = (req , res, next)=> {
             });
        
     };
+   
 
 };
 

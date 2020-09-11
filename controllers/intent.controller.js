@@ -1,9 +1,27 @@
 const intentSchema = require("../models/Intent"); 
 //const agentSchema = require("../models/Agent"); 
 const express = require("express");
-const { check, validationResult } = require('express-validator');
+const fastcsv = require('fast-csv');
 
+const { check, validationResult } = require('express-validator');
+const fs = require('fs');
+const csv = require('@fast-csv/parse');
 module.exports.addIntent=(req, res,next ) => {
+    let d = [] ;
+  fs.createReadStream('out.csv')
+    .pipe(csv.parse())
+    .on('error', error => console.error(error))
+    .on('data', row => {console.log(`ROW=${row}`);
+ d.push(row) ;
+console.log(d) ;  })
+    .on('end', rowCount => {console.log(`Parsed ${rowCount} rows`);
+    console.log(d) ;
+    d.push(['dgdfg','gfdgd','dfdfg','dfs']) ; 
+    const ws = fs.createWriteStream("out.csv");
+    fastcsv
+      .write(d, { headers: false})
+      .pipe(ws);})
+ 
     console.log(req.body.id_agent);
     const errors = validationResult(req);
     console.log("requet is" +req.body.name);
@@ -29,6 +47,7 @@ module.exports.addIntent=(req, res,next ) => {
                     error: error
                 });
             });
+
        
     };
   
